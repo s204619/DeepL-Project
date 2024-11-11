@@ -8,10 +8,14 @@ import torch
 from torch import nn
 from torch.nn.modules.loss import _Loss
 import torch.nn.functional as F
-
-from transformers.modeling_bert import \
-    BertPreTrainedModel, BertSelfOutput, BertIntermediate, \
+from transformers.models.bert.modeling_bert import (
+    BertPreTrainedModel, BertSelfOutput, BertIntermediate, 
     BertOutput, BertPredictionHeadTransform, BertPooler
+)
+
+# from transformers.modeling_bert import \
+#     BertPreTrainedModel, BertSelfOutput, BertIntermediate, \
+#     BertOutput, BertPredictionHeadTransform, BertPooler
 from transformers.file_utils import WEIGHTS_NAME
 
 from tnlrv3.config import TuringNLRv3ForSeq2SeqConfig

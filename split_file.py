@@ -10,7 +10,7 @@ def get_sample(all_element, num_sample):
         return random.sample(all_element, num_sample)
 
 
-N = 4
+N = 1 
 behaviors = []
 with open('./MIND/MINDlarge_train/behaviors.tsv') as f:
     for line in tqdm(f):

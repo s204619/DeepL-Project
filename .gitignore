@@ -1,3 +1,7 @@
 .DS_Store
 __pycache__
 .ipynb_checkpoints
+MINDlarge_dev.zip
+MINDlarge_test.zip
+MINDlarge_train.zip
+/MIND
