@@ -1,3 +1,8 @@
+## changes from Original code:
+Ignored: Make a MIND folder and add teh data stuff to it :)
+
+
+
 # Tiny-NewsRec
 
 The source code and data for our paper "Tiny-NewsRec: Effective and Efficient PLM-based News Recommendation" in EMNLP 2022.
