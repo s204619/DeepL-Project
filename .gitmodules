@@ -1,3 +1,0 @@
-[submodule "ebnerd-benchmark/ebnerd-benchmark"]
-	path = ebnerd-benchmark/ebnerd-benchmark
-	url = https://github.com/ebanalyse/ebnerd-benchmark.git
