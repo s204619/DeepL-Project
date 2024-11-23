@@ -36,7 +36,14 @@ class NRMSModel:
         if word2vec_embedding is None:
             self.word2vec_embedding = np.random.rand(vocab_size, word_emb_dim)
         else:
-            self.word2vec_embedding = word2vec_embedding
+            self.word2vec_embedding = word2vec_embedding #word2vec_embedding
+
+        # # NEW Initialize article embeddings
+        # if precomputed_embeddings is not None:
+        #     self.article_embedding_table = precomputed_embeddings
+        # else:
+        #     self.article_embedding_table = np.random.rand(vocab_size, word_emb_dim)
+
 
         # BUILD AND COMPILE MODEL:
         self.model, self.scorer = self._build_graph()
@@ -118,7 +125,8 @@ class NRMSModel:
         embedding_layer = tf.keras.layers.Embedding(
             self.word2vec_embedding.shape[0],
             self.word2vec_embedding.shape[1],
-            weights=[self.word2vec_embedding],
+            weights=[self.word2vec_embedding], #change for precomputed embeddings
+            # weights=[self.article_embedding_table],
             trainable=True,
         )
         sequences_input_title = tf.keras.Input(
