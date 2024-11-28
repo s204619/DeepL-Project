@@ -7,7 +7,14 @@ import numpy as np
 from tqdm import tqdm
 
 class AttLayer2(nn.Module):
-    """Attention layer for NRMS."""
+    """Attention layer for NRMS.
+    
+        Attention layer with:
+        - Linear transformation
+        - Tanh activation 
+        - Linear projection to scalar
+        - Softmax to get attention weights
+         """
     def __init__(self, attention_hidden_dim, seed=None):
         super().__init__()
         if seed is not None:
@@ -26,6 +33,17 @@ class AttLayer2(nn.Module):
 
 class NRMSWrapper:
     def __init__(self, model, device='cuda' if torch.cuda.is_available() else 'cpu'):
+        """
+        Initializes the NRMSWrapper class.
+        Handles:
+        - Model placement on CPU/GPU
+        - Optimizer (Adam)
+        - Loss function (BCE)
+        - Training loop
+        - Validation
+         """
+        
+        
         print("NRMSWrapper init")
         print(torch.cuda.is_available())
         self.model = model
@@ -135,7 +153,14 @@ class NRMSWrapper:
         self.model.load_state_dict(torch.load(filepath))
 
 class SelfAttention(nn.Module):
-    """Multi-head self attention layer."""
+
+    """
+    Multi-head self attention layer.
+    - Projects input to a specified dimension if necessary.
+    - Computes query, key, and value matrices.
+    - Applies scaled dot-product attention.
+    - Outputs the context vector.
+    """
     def __init__(self, head_num, head_dim, input_dim=None, seed=None):
         super().__init__()
         if seed is not None:
@@ -176,6 +201,9 @@ class SelfAttention(nn.Module):
         return output
 
 class NRMSModel(nn.Module):
+    """
+    
+    """ 
     def __init__(
         self,
         hparams: dict,
@@ -260,3 +288,85 @@ class NRMSModel(nn.Module):
         his_encoded = self.newsencoder(his_embedded)
         his_encoded = his_encoded.view(batch_size, self.hparams.history_size, -1)
         return self.userencoder(his_encoded)
+
+
+
+
+# TODO Attempt at trying new NRMS
+# class NRMSModel(nn.Module):
+#     def __init__(self, hparams, 
+#                     transformer_model, 
+#                     transformer_tokenizer, 
+#                     seed=None):
+        
+#         super().__init__()
+#         self.hparams = hparams
+        
+#         if seed is not None:
+#             torch.manual_seed(seed)
+#             np.random.seed(seed)
+        
+        
+#         #load trans models:
+#         self.transformer_model = transformer_model
+#         self.transformer_tokenizer = transformer_tokenizer
+            
+#         self.newsencoder = self._build_newsencoder()
+#         self.userencoder = self._build_userencoder()
+#         self.dropout = nn.Dropout(self.hparams.dropout)
+        
+        
+#     def _build_newsencoder(self):
+#         return nn.Sequential(
+#             SelfAttention(
+#                 head_num=self.hparams.head_num,
+#                 head_dim=self.hparams.head_dim,
+#                 input_dim=self.transformer_model.config.hidden_size
+#                 ## ^^ i think this is correct?
+#             ),
+#             AttLayer2(self.hparams.head_num * self.hparams.head_dim)
+#         )
+#     def _build_userencoder(self):
+#         return nn.Sequential(
+#             SelfAttention(
+#                 head_num=self.hparams.head_num,
+#                 head_dim=self.hparams.head_dim,
+#                 input_dim=self.hparams.head_num * self.hparams.head_dim
+#             ),
+#             AttLayer2(self.hparams.head_num * self.hparams.head_dim)
+#         )
+#     def forward(self, his_input_title, pred_input_title, training=True):
+#         batch_size = his_input_title.size(0)
+#         his_input_title = his_input_title.view(-1, self.hparams.title_size)
+        
+#         #transformer model stuff
+#         his_embedded = self.transformer_model(his_input_title).last_hidden_state
+#         if training:
+#             his_embedded = self.dropout(his_embedded)
+            
+#         his_encoded = self.newsencoder(his_embedded)
+#         his_encoded = his_encoded.view(batch_size, self.hparams.history_size, -1)
+#         user_present = self.userencoder(his_encoded)
+#         pred_input_title = pred_input_title.view(-1, self.hparams.title_size)
+#         pred_embedded = self.transformer_model(pred_input_title).last_hidden_state
+#         if training:
+#             pred_embedded = self.dropout(pred_embedded)
+#         news_present = self.newsencoder(pred_embedded)
+#         news_present = news_present.view(batch_size, -1, news_present.size(-1))
+        
+#         # Calculate scores - Modified dot product and scoring
+#         scores = torch.bmm(news_present, user_present.unsqueeze(-1)).squeeze(-1)
+#         return torch.sigmoid(scores)  # Changed from softmax to sigmoid for binary classification
+    
+    
+#     def get_news_embedding(self, news_title):
+#         news_embedded = self.transformer_model(news_title).last_hidden_state
+#         return self.newsencoder(news_embedded)
+    
+#     def get_user_embedding(self, his_input_title):
+#         batch_size = his_input_title.size(0)
+#         his_input_title = his_input_title.view(-1, self.hparams.title_size)
+#         his_embedded = self.transformer_model(his_input_title).last_hidden_state
+#         his_encoded = self.newsencoder(his_embedded)
+#         his_encoded = his_encoded.view(batch_size, self.hparams.history_size, -1)
+#         return self.userencoder(his_encoded)
