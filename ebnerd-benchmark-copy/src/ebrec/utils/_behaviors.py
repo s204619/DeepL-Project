@@ -1060,3 +1060,4 @@ def add_prediction_scores(
         .collect()
     )
     return df.with_columns(scores.select(prediction_scores_col)).drop(GROUPBY_ID)
+
