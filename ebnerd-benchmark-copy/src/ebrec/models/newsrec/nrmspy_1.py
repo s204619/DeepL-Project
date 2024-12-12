@@ -241,7 +241,7 @@ class NRMSModel(nn.Module):
                 head_dim=self.hparams.head_dim,
                 input_dim=self.word_emb_dim
             ),
-            AttLayer2(self.hparams.head_num * self.hparams.head_dim)
+            AttLayer2(self .hparams.head_num * self.hparams.head_dim)
         )
     
     def _build_userencoder(self):
