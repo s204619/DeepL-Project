@@ -44,8 +44,8 @@ class NRMSWrapper:
          """
         
         
-        print("NRMSWrapper init")
-        print(torch.cuda.is_available())
+        # print("NRMSWrapper init")
+        # print(torch.cuda.is_available())
         self.model = model
         self.device = device
         self.model.to(device)
@@ -255,6 +255,10 @@ class NRMSModel(nn.Module):
         )
     
     def forward(self, his_input_title, pred_input_title, training=True):
+        debugggg = False
+        if debugggg:
+            print("History shape:", his_input_title.shape)
+            print("Candidates shape:", pred_input_title.shape)
         # Process history
         batch_size = his_input_title.size(0)
         his_input_title = his_input_title.view(-1, self.hparams.title_size)
