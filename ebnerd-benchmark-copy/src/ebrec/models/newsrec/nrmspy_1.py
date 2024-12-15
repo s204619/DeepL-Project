@@ -266,6 +266,8 @@ class NRMSModel(nn.Module):
         if training:
             his_embedded = self.dropout(his_embedded)
         his_encoded = self.newsencoder(his_embedded)
+        if debugggg:
+            print(f"Original shape of his_encoded: {his_encoded.shape}")
         his_encoded = his_encoded.view(batch_size, self.hparams.history_size, -1)
         user_present = self.userencoder(his_encoded)
         
