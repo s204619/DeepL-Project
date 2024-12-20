@@ -1061,3 +1061,36 @@ def add_prediction_scores(
     )
     return df.with_columns(scores.select(prediction_scores_col)).drop(GROUPBY_ID)
 
+
+# def ebnerd_from_path(
+#     path: Path,
+#     history_size: int = 30,
+#     padding: int = 0,
+#     user_col: str = DEFAULT_USER_COL,
+#     history_aids_col: str = DEFAULT_HISTORY_ARTICLE_ID_COL,
+# ) -> pl.DataFrame:
+#     """
+#     Load ebnerd - function
+#     """
+#     df_history = (
+#         pl.scan_parquet(path.joinpath("history.parquet"))
+#         .select(user_col, history_aids_col)
+#         .pipe(
+#             truncate_history,
+#             column=history_aids_col,
+#             history_size=history_size,
+#             padding_value=padding,
+#             enable_warning=False,
+#         )
+#     )
+#     df_behaviors = (
+#         pl.scan_parquet(path.joinpath("behaviors.parquet"))
+#         .collect()
+#         .pipe(
+#             slice_join_dataframes,
+#             df2=df_history.collect(),
+#             on=user_col,
+#             how="left",
+#         )
+#     )
+#     return df_behaviors

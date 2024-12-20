@@ -1,0 +1,1 @@
+{"title_size": 512, "history_size": 20, "head_num": 8, "head_dim": 64, "attention_hidden_dim": 200, "optimizer": "adam", "loss": "categorical_crossentropy", "dropout": 0.2, "learning_rate": 0.001}
