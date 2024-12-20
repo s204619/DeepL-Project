@@ -27,3 +27,8 @@ venv
 
 # just for now:
 evaluate_predictions.py
+ebnerd_predictions/*
+/ebnerd_data
+
+ebnerd-benchmark-copy/articles.parquet
+articles.parquet

@@ -15,7 +15,16 @@ except ImportError:
 
 
 def get_transformers_word_embeddings(model: AutoModel):
-    return model.embeddings.word_embeddings.weight.data.to("cpu").numpy()
+    """Get word embeddings from a HuggingFace transformer model.
+    
+    Args:
+        model: HuggingFace transformer model
+        
+    Returns:
+        numpy.ndarray: Word embedding weights
+    """
+    embeddings_dict = model.embeddings.word_embeddings.weight.data.to("cpu").numpy()
+    return embeddings_dict # Extract just the array
 
 
 def generate_embeddings_with_transformers(
