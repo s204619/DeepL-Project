@@ -25,4 +25,4 @@ An alternative way to make the test set is shown in [Notebook_Alternative__tests
 Data has been downloaded from:
 https://recsys.eb.dk/#leaderboard --> Download Dataset and is to be put into the `ebnerd_data` folder.
 
-Many of the results were produced from `Notebook_MODEL.ipynb`.
+Many of the results for both the poster and report were produced from [Notebook_Model__.ipynb](https://github.com/s204619/DeepL-Project/blob/114f3580d734a7f71576f8fc68ddef2ebfa9db94/ebnerd-benchmark-copy/src/NoteBook_Hyperparams_GOOD.ipynb).
